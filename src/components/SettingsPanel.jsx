@@ -552,6 +552,38 @@ export default function SettingsPanel({
                       </div>
                     )}
 
+                    {/* Vietnamese Toggle */}
+                    <div className="border-t pt-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-lg">🇻🇳</span>
+                          <div>
+                            <span className="text-sm font-semibold text-gray-700">Đọc nghĩa tiếng Việt</span>
+                            <div className="text-xs text-gray-400">Đọc nối tiếp nghĩa TV sau tiếng Anh</div>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => updateSettings({ vietnameseEnabled: !settings.vietnameseEnabled })}
+                          className={`w-12 h-6 rounded-full transition-colors ${
+                            settings.vietnameseEnabled ? "bg-green-500" : "bg-gray-300"
+                          }`}
+                        >
+                          <div
+                            className={`w-5 h-5 bg-white rounded-full shadow-md transition-transform ${
+                              settings.vietnameseEnabled ? "translate-x-6" : "translate-x-0.5"
+                            }`}
+                          />
+                        </button>
+                      </div>
+                      {settings.vietnameseEnabled && (
+                        <div className="p-2 bg-green-50 rounded-lg">
+                          <p className="text-xs text-green-700">
+                            🔊 Ví dụ: Gõ "D" → đọc <strong>"D"</strong> rồi đọc <strong>"Con chó"</strong>
+                          </p>
+                        </div>
+                      )}
+                    </div>
+
                     {/* Voice Selector */}
                     <div className="border-t pt-4">
                       <label className="block text-sm font-semibold text-gray-700 mb-2">🎤 Giọng đọc</label>

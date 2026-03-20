@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react"
 import { shiftMap } from "../utils/keyboardLayout"
 import { audioManager } from "../utils/audio"
 import { speechManager } from "../utils/speech"
-import { vocabularyData } from "../data/keyboardData"
+import { vocabularyData, keyboardData } from "../data/keyboardData"
 
 // Mapping tên ký tự đặc biệt cho speech
 const charNames = {
@@ -157,7 +157,7 @@ export function useKeyboard(settings) {
         if (exactMatch) {
           // Tìm thấy từ khớp chính xác!
           setMatchedWord(exactMatch)
-          speechManager.speak(exactMatch.word)
+          speechManager.speakWithVietnamese(exactMatch.word, exactMatch.vi)
 
           // Kiểm tra xem có thể ghép tiếp không
           const canContinue = findMatchingWords(newBuffer, settings.category)
@@ -234,7 +234,13 @@ export function useKeyboard(settings) {
         if (charNames[actualLetterStr]) {
           speechManager.speak(charNames[actualLetterStr])
         } else {
-          speechManager.speak(actualLetterStr)
+          // Tìm nghĩa tiếng Việt của chữ cái
+          const keyInfo = keyboardData.find(k => k.key === actualLetterStr.toUpperCase())
+          if (keyInfo && keyInfo.vi) {
+            speechManager.speakWithVietnamese(actualLetterStr, keyInfo.vi)
+          } else {
+            speechManager.speak(actualLetterStr)
+          }
         }
       }
 

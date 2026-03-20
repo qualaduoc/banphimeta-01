@@ -29,7 +29,7 @@ const charNames = {
   "~": "tilde",
 }
 
-export default function WordDisplay({ letter, theme, wordMode, matchedWord, wordHint, possibleWords, wordBuffer }) {
+export default function WordDisplay({ letter, theme, wordMode, matchedWord, wordHint, possibleWords, wordBuffer, vietnameseEnabled }) {
   if (
     !letter ||
     letter === "BACKSPACE" ||
@@ -80,6 +80,16 @@ export default function WordDisplay({ letter, theme, wordMode, matchedWord, word
               <div className="text-xl sm:text-2xl md:text-3xl text-gray-600 font-semibold">
                 {matchedWord.word}
               </div>
+              {vietnameseEnabled && matchedWord.vi && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.25 }}
+                  className="text-base sm:text-lg md:text-xl text-orange-500 font-medium mt-0.5"
+                >
+                  🇻🇳 {matchedWord.vi}
+                </motion.div>
+              )}
             </motion.div>
 
             {/* Badge thành công */}
@@ -197,6 +207,9 @@ export default function WordDisplay({ letter, theme, wordMode, matchedWord, word
               {phraseMatch.emoji}
             </div>
             <div className="text-xl sm:text-2xl md:text-3xl text-gray-600 font-semibold">{phraseMatch.word}</div>
+            {vietnameseEnabled && phraseMatch.vi && (
+              <div className="text-base sm:text-lg text-orange-500 font-medium">🇻🇳 {phraseMatch.vi}</div>
+            )}
           </div>
         </motion.div>
       </AnimatePresence>
@@ -210,6 +223,7 @@ export default function WordDisplay({ letter, theme, wordMode, matchedWord, word
   const keyData = keyboardData.find((k) => k.key === searchKey)
   const displayWord = keyData?.word || charNames[letterStrUpper] || letterStrUpper
   const displayEmoji = keyData?.emoji || ""
+  const displayVi = keyData?.vi || ""
 
   return (
     <AnimatePresence mode="wait">
@@ -234,6 +248,9 @@ export default function WordDisplay({ letter, theme, wordMode, matchedWord, word
             </div>
           )}
           {displayWord && <div className="text-sm sm:text-base md:text-lg text-gray-500 italic">{displayWord}</div>}
+          {vietnameseEnabled && displayVi && (
+            <div className="text-xs sm:text-sm md:text-base text-orange-500 font-medium">🇻🇳 {displayVi}</div>
+          )}
         </div>
       </motion.div>
     </AnimatePresence>

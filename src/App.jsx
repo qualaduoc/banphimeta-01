@@ -25,6 +25,7 @@ function App() {
       syllableMode: loaded.syllableMode || 1,
       category: loaded.category || "all",
       wordMode: loaded.wordMode || false, // false = chữ cái, true = ghép từ
+      vietnameseEnabled: loaded.vietnameseEnabled !== undefined ? loaded.vietnameseEnabled : true, // Đọc nghĩa tiếng Việt (bật mặc định)
     }
   })
   const [currentTheme, setCurrentTheme] = useState(() => getTheme(settings.theme))
@@ -48,6 +49,7 @@ function App() {
     audioManager.setVolume(settings.volume)
 
     speechManager.setSpeechEnabled(settings.speechEnabled)
+    speechManager.setVietnameseEnabled(settings.vietnameseEnabled)
     speechManager.setVolume(settings.volume)
 
     setTimeout(() => {
@@ -79,6 +81,9 @@ function App() {
     }
     if (newSettings.voice !== undefined) {
       speechManager.setVoice(newSettings.voice)
+    }
+    if (newSettings.vietnameseEnabled !== undefined) {
+      speechManager.setVietnameseEnabled(newSettings.vietnameseEnabled)
     }
     if (newSettings.theme !== undefined) {
       setCurrentTheme(getTheme(newSettings.theme))
@@ -128,6 +133,7 @@ function App() {
               wordHint={wordHint}
               possibleWords={possibleWords}
               wordBuffer={wordBuffer}
+              vietnameseEnabled={settings.vietnameseEnabled}
             />
           ) : (
             <div className="text-center">
